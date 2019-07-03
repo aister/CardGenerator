@@ -1,16 +1,15 @@
 # Card Generator
 
-This is a collection of card generators for various gacha games.
+This is a collection of card generators for various gacha games that I worked on. Don't see your favorite game in the list? [Tell me](https://github.com/aister/CardGenerator/issues) and I'll see if there's anything we can do about it!
 
-## FGO
+Despite the massive amount of pesticide I sprayed on the code, there's a chance that some bugs might still be alive. So if you find any, please report to me by [Opening an issue](https://github.com/aister/CardGenerator/issues) and I'll send a team to squash that bug right away!
 
-I used to work on this project until time and procastination inhibited me from working on it.
+## Fate Grand Order
 
-[Original](https://juncaixinchi.github.io/FGO/fgo.html)
-[Most Updated](https://0cristinazhou0.github.io/FGO-Card-Generator/fgo.html)
+Original version by Juncaixinchi: https://juncaixinchi.github.io/FGO/fgo.html
+
+Most Updated version by CristinaZhou: https://0cristinazhou0.github.io/FGO-Card-Generator/fgo.html
 
 ## Girl's Frontline
 
-This was coded roughly based on the FGO Generator framework.
-
-[https://aister.github.io/CardGenerator/GFL](https://aister.github.io/CardGenerator/GFL)
+https://aister.github.io/CardGenerator/GFL
