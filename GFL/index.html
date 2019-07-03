@@ -5,13 +5,9 @@
   <meta name = "viewport" content = "width = device-width, initial-scale = 1">
   <title>FGO Card Generator</title>
   <style type = "text/css">
-    @font-face {
-      font-family: GFL;
-      src: url('Font/honoka.ttf') format("truetype"); 
-    }
     body{
       background-color: #2b2b2b;
-      background-image: url('./img/bg0.png');
+      background-image: url('./img/bg.png');
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
@@ -89,7 +85,8 @@
 
       const canvas = document.getElementById(id);
       const content = canvas.getContext("2d");
-      content.clearRect(0, 0, canvas.width, canvas.height);
+      content.fillStyle = "white";
+      content.fillRect(0, 0, canvas.width, canvas.height);
       const img_frame = new Image();
       let img_bg = new Image();
       img_frame.crossOrigin = '';
@@ -100,85 +97,80 @@
         alert("Please upload a picture!"); return;
       }
       preLoadImg(img_bg.src);
-      img_frame.src = `img/${classType}_${rarity}.png`;
+      img_frame.src = `https://raw.githubusercontent.com/aister/CardGenerator/master/GFL/img/${classType}_${rarity}.png`;
       preLoadImg(img_frame.src);
       img_frame.onload = function()
       {
-        content.drawImage(img_bg,0,0,0,0);
+        //resize
+        if (img_bg.width / canvas.width < img_bg.height / canvas.height) { //too high
+          let resize = img_bg.height * canvas.width / img_bg.width;
+          content.drawImage(img_bg, 0, (resize - img_bg.height) / 2, canvas.width, resize);
+        } else {
+          let resize = img_bg.width * canvas.height / img_bg.height;
+          content.drawImage(img_bg, (resize - img_bg.width) / 2, 0, resize, canvas.height);
+        }
+
         content.drawImage(img_frame,0,0);
               
         //Name Printing
-        content.font = "22px GFL";
-        content.fillStyle = "white";
-        //content.fillText(name, 0, 0);
+        content.font = "35px Arial";
+        content.fillStyle = "black";
+        content.fillText(name, 0, 393);
         
         //ID Printing
-        content.font = "50px FGO";
-        content.strokeStyle = "black";
-        //content.fillText(idNumber, 0, 0);
+        content.font = "25px Arial";
+        content.fillText(idNumber, 200, 447);
         
         dataURL = canvas.toDataURL();
         document.getElementById('pic_show').src = dataURL;
       }
         
       
-      resize();
-    }
-    function resize(){
-      width = document.body.clientWidth;
-      if(width <= 500)
-      {
-        document.getElementById("pic_show").style.width = "100%";
-      }
-      else{
-        document.getElementById("pic_show").style.width = "500px";
-      }
     }
   </script>
 </head>
-<body onresize = "resize()">
-  <div id = "main-container" >
-    <div style = "font-size: 35px; text-align: center; color: #9f4996; font-weight: bold; margin-bottom: 20px">Girl Frontline<br>Card Generator</div>
+<body>
+  <div id="main-container" >
+    <div style="font-size: 35px; text-align: center; color: #9f4996; font-weight: bold; margin-bottom: 20px">Girl's Frontline<br>Card Generator</div>
     <span class="bold">Rarity</span>
-    <select id = "rarity">
-      <option value = "EXTRA">1 ☆</option>
-      <option value = "2">2 ☆</option>
-      <option value = "3">3 ☆</option>
-      <option value = "4">4 ☆</option>
-      <option value = "5">5 ☆</option>
+    <select id="rarity">
+      <option value="EXTRA">1 ☆</option>
+      <option value="2">2 ☆</option>
+      <option value="3">3 ☆</option>
+      <option value="4">4 ☆</option>
+      <option value="5">5 ☆</option>
     </select>
     <span class="bold">Name</span>
-    <input type = "text" id = "name" placeholder = "Name">
+    <input type="text" id="name" placeholder="Name - Default: Unknown">
     <span class="bold">ID:</span>
-    <input type = "text" id = "id" placeholder = "ID">
+    <input type="text" id="id" placeholder="ID - Default: 0">
     <span class="bold">Class Icon</span>
-    <select id = "class">
-      <option value = "HG">HG - Handgun</option>
-      <option value = "SMG">SMG - Sub-machine gun</option>
-      <option value = "SG">SG - Shotgun</option>
-      <option value = "RF">RF - Sniper Rifle</option>
-      <option value = "AR">AR - Assault Rifle</option>
-      <option value = "MG">MG - Machine Gun</option>
+    <select id="class">
+      <option value="HG">HG - Handgun</option>
+      <option value="SMG">SMG - Sub-machine gun</option>
+      <option value="SG">SG - Shotgun</option>
+      <option value="RF">RF - Sniper Rifle</option>
+      <option value="AR">AR - Assault Rifle</option>
+      <option value="MG">MG - Machine Gun</option>
     </select>
-    <span class="bold">Please upload the photo:</span>
-    <input type = "file" name = "file" onchange = "imgPreview(this)" value = "上传图片">
-    <br>
-    <br>
-    <a href = "#Canvas-position"><button onclick = "get_pic('myCanvas')">Generate!</button></a>
-    <br>
-    <p style = "font-size: 10pt">Tips: For best result, please use image size of 730 x 500！</p>
-    <!--两个例子：
-    <a href = "#Canvas-position"><button onclick = "get_zhou()">生成周天王！</button></a>
-    <a href = "#Canvas-position"><button onclick = "get_lei()">生成蕾姆！</button></a> -->
-    <img id = "preview" hidden = "hidden">
-  </div>
-  <div id = "Canvas-container">
-    <a name = "Canvas-position">
-      <canvas id = "myCanvas" width = "500" height = "850" style = "border:1px solid #c3c3c3" hidden = "hidden">
-        Your browser doesn't support Canvas, please use a more modern browser!
-      </canvas>
-      <img id = "pic_show">
+    <span class="bold">Please upload the photo<br><span style="font-size: 10pt">(RECOMMENDED SIZE: 256 x 456)</span></span>
+    <input type="file" name="file" onchange="imgPreview(this)" value="上传图片">
+    <a href="#Canvas-position">
+      <button style="width: 100%; padding: 10px; background: #9f4996; color: white;" onclick="get_pic('myCanvas')">Generate!</button>
     </a>
+    <p style="font-size: 10pt">Tips: While we do have auto-resize, however, in order to get the best result, it is advised that you crop and resize the image by yourself.</p>
+    <!--两个例子：
+    <a href="#Canvas-position"><button onclick="get_zhou()">生成周天王！</button></a>
+    <a href="#Canvas-position"><button onclick="get_lei()">生成蕾姆！</button></a> -->
+    <img id="preview" hidden="hidden">
+    <div id="Canvas-container">
+      <a name="Canvas-position">
+        <canvas id="myCanvas" width="256" height="456" style="border:1px solid #c3c3c3" hidden="hidden">
+          Your browser doesn't support Canvas, please use a more modern browser!
+        </canvas>
+        <img id="pic_show" style="display: block; margin: 0 auto">
+      </a>
+    </div>
   </div>
  </body>
  </html>

@@ -1,14 +1,16 @@
-# Aister's FGO + Canvas project
-Several projects that experiment on HTML5 canvas
+# Card Generator
 
-## Card generator
+This is a collection of card generators for various gacha games.
 
-An expansion of juncaixinchi's original concept of using canvas to generate FGO cards. The generator itself can be found [here](https://aister.github.io/FGO/fgo.html)
+##FGO
 
-Original code can be found [here](https://github.com/juncaixinchi/FGO)
+I used to work on this project until time and procastination inhibited me from working on it.
 
-## Gacha Simulator
+[Original](https://juncaixinchi.github.io/FGO/fgo.html)
+[Most Updated](https://0cristinazhou0.github.io/FGO-Card-Generator/fgo.html)
 
-Using canvas to generate gacha. Could have used simple img tbh
+##Girl's Frontline
 
-Link: [https://aister.github.io/FGO/gacha.html](https://aister.github.io/FGO/gacha.html)
+This was coded roughly based on the FGO Generator framework.
+
+[https://aister.github.io/CardGenerator/GFL](https://aister.github.io/CardGenerator/GFL)
