@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "utf-8">
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+  <title>FGO Card Generator</title>
+  <style type = "text/css">
+    @font-face {
+      font-family: GFL;
+      src: url('Font/honoka.ttf') format("truetype"); 
+    }
+    body{
+      background-color: #2b2b2b;
+      background-image: url('./img/bg0.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: contain;
+    }
+    input, select {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      margin: 10px 0 20px;
+    }
+    #main-container
+    {
+      background-color: #F2F2F2;
+      border: 1px solid #E0E0E0;
+      padding: 10px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    #Canvas-container
+    {
+      position: relative;
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  </style>
+  <script type = "text/javascript">
+    function preLoadImg(url) 
+    { 
+      const img = new Image(); 
+      img.src = url;
+    } 
+    function imgPreview(fileDom)
+    {
+          
+      let reader;
+      if (window.FileReader) {
+        reader = new FileReader();
+      } else {
+        alert("Your device doesn't support uploading images.");
+      }
+      
+      const file = fileDom.files[0];
+      const imageType = /^image\//g;
+      
+      if (!imageType.test(file.type)) 
+      {
+        alert("Please upload a picture!");
+        return;
+      } 
+      
+      reader.onload = function(e) 
+      {
+          
+          const img = document.getElementById("preview");
+          
+          img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+    function get_pic(id)
+    {
+      //get value
+
+      const name = document.getElementById("name").value || "Unknown";
+      const idNumber = document.getElementById("id").value || "0";
+      const classType = document.getElementById("class").value || "HG";
+      const rarity = document.getElementById("rarity").value || 5;
+
+      const canvas = document.getElementById(id);
+      const content = canvas.getContext("2d");
+      content.clearRect(0, 0, canvas.width, canvas.height);
+      const img_frame = new Image();
+      let img_bg = new Image();
+      img_frame.crossOrigin = '';
+      img_bg.crossOrigin = '';
+      img_bg = document.getElementById("preview");
+      if(!img_bg.src) 
+      {
+        alert("Please upload a picture!"); return;
+      }
+      preLoadImg(img_bg.src);
+      img_frame.src = `img/${classType}_${rarity}.png`;
+      preLoadImg(img_frame.src);
+      img_frame.onload = function()
+      {
+        content.drawImage(img_bg,0,0,0,0);
+        content.drawImage(img_frame,0,0);
+              
+        //Name Printing
+        content.font = "22px GFL";
+        content.fillStyle = "white";
+        //content.fillText(name, 0, 0);
+        
+        //ID Printing
+        content.font = "50px FGO";
+        content.strokeStyle = "black";
+        //content.fillText(idNumber, 0, 0);
+        
+        dataURL = canvas.toDataURL();
+        document.getElementById('pic_show').src = dataURL;
+      }
+        
+      
+      resize();
+    }
+    function resize(){
+      width = document.body.clientWidth;
+      if(width <= 500)
+      {
+        document.getElementById("pic_show").style.width = "100%";
+      }
+      else{
+        document.getElementById("pic_show").style.width = "500px";
+      }
+    }
+  </script>
+</head>
+<body onresize = "resize()">
+  <div id = "main-container" >
+    <div style = "font-size: 35px; text-align: center; color: #9f4996; font-weight: bold; margin-bottom: 20px">Girl Frontline<br>Card Generator</div>
+    <span class="bold">Rarity</span>
+    <select id = "rarity">
+      <option value = "EXTRA">1 ☆</option>
+      <option value = "2">2 ☆</option>
+      <option value = "3">3 ☆</option>
+      <option value = "4">4 ☆</option>
+      <option value = "5">5 ☆</option>
+    </select>
+    <span class="bold">Name</span>
+    <input type = "text" id = "name" placeholder = "Name">
+    <span class="bold">ID:</span>
+    <input type = "text" id = "id" placeholder = "ID">
+    <span class="bold">Class Icon</span>
+    <select id = "class">
+      <option value = "HG">HG - Handgun</option>
+      <option value = "SMG">SMG - Sub-machine gun</option>
+      <option value = "SG">SG - Shotgun</option>
+      <option value = "RF">RF - Sniper Rifle</option>
+      <option value = "AR">AR - Assault Rifle</option>
+      <option value = "MG">MG - Machine Gun</option>
+    </select>
+    <span class="bold">Please upload the photo:</span>
+    <input type = "file" name = "file" onchange = "imgPreview(this)" value = "上传图片">
+    <br>
+    <br>
+    <a href = "#Canvas-position"><button onclick = "get_pic('myCanvas')">Generate!</button></a>
+    <br>
+    <p style = "font-size: 10pt">Tips: For best result, please use image size of 730 x 500！</p>
+    <!--两个例子：
+    <a href = "#Canvas-position"><button onclick = "get_zhou()">生成周天王！</button></a>
+    <a href = "#Canvas-position"><button onclick = "get_lei()">生成蕾姆！</button></a> -->
+    <img id = "preview" hidden = "hidden">
+  </div>
+  <div id = "Canvas-container">
+    <a name = "Canvas-position">
+      <canvas id = "myCanvas" width = "500" height = "850" style = "border:1px solid #c3c3c3" hidden = "hidden">
+        Your browser doesn't support Canvas, please use a more modern browser!
+      </canvas>
+      <img id = "pic_show">
+    </a>
+  </div>
+ </body>
+ </html>
