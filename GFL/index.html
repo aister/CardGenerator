@@ -103,22 +103,22 @@
         //resize
         if (img_bg.width / canvas.width < img_bg.height / canvas.height) { //too high
           let resize = img_bg.height * canvas.width / img_bg.width;
-          content.drawImage(img_bg, 0, (resize - img_bg.height) / 2, canvas.width, resize);
+          content.drawImage(img_bg, 0, (img_bg.height - resize) / 2, canvas.width, resize);
         } else {
           let resize = img_bg.width * canvas.height / img_bg.height;
-          content.drawImage(img_bg, (resize - img_bg.width) / 2, 0, resize, canvas.height);
+          content.drawImage(img_bg, (img_bg.width - resize) / 2, 0, resize, canvas.height);
         }
 
         content.drawImage(img_frame,0,0);
               
-        //Name Printing
-        content.font = "35px Arial";
-        content.fillStyle = "black";
-        content.fillText(name, 0, 393);
-        
         //ID Printing
-        content.font = "25px Arial";
+        content.font = "25px courier";
         content.fillText(idNumber, 200, 447);
+
+        //Name Printing
+        content.font = "bold 25px serif";
+        content.fillStyle = "black";
+        content.fillText(name, 5, 390);
         
         dataURL = canvas.toDataURL();
         document.getElementById('pic_show').src = dataURL;
